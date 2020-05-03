@@ -143,7 +143,7 @@ DROP TABLE IF EXISTS `screen`;
 CREATE TABLE `screen` (
   `seat_no` int(11) NOT NULL,
   `sc_id` int(11) NOT NULL,
-  `row` varchar(10) DEFAULT NULL,
+  `s_row` varchar(10) DEFAULT NULL,
   `cols` varchar(10) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`sc_id`,`seat_no`)

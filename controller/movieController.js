@@ -31,7 +31,7 @@ module.exports = function(app,con){
   		 };
     console.log(req.body);
     //console.log(res);
-    var q = `select m_name,row, cols, status from screen,movie_data,movie
+    var q = `select m_name,s_row, cols, status from screen,movie_data,movie
       where screen.sc_id = ${req.body.screen} and movie.m_id=movie_data.m_id and movie.sc_id=screen.sc_id`
 
   	var val = con.query(q,function(err,response) {
@@ -111,7 +111,7 @@ module.exports = function(app,con){
         con.query(q,function(err,resp){
           if(err) throw err;
           //console.log(resp);
-          var qry=`select sc_id,seat_no,row,cols from screen where
+          var qry=`select sc_id,seat_no,s_row,cols from screen where
             seat_no in (select seat_no from ticket where b_id = "${bid}" and phone = "${phone}") and
             sc_id in (select sc_id from ticket where b_id = "${bid}" and phone = "${phone}")`
           console.log(qry);
@@ -172,7 +172,7 @@ module.exports = function(app,con){
       }
       bookingid=randomstring.generate(7);
       //console.log(x);
-      var q = "select row,cols from screen where sc_id= "+screen+" and (";
+      var q = "select s_row,cols from screen where sc_id= "+screen+" and (";
       for(var i = 0; i < x.length - 1 ; i++)
         q = q + "seat_no = " + x[i] + " or ";
       q = q + "seat_no = " +x[x.length-1]+")";
@@ -228,7 +228,7 @@ module.exports = function(app,con){
           con.query(qr,function(err,response) {
               if(err) throw err;
               var price = JSON.parse(JSON.stringify(response));
-              var qy =`select row,cols from screen where sc_id=${o[0].sc_id} and(`;
+              var qy =`select s_row,cols from screen where sc_id=${o[0].sc_id} and(`;
               for(var i = 0; i < o.length - 1 ; i++)
                   qy = qy + "seat_no = " + o[i].seat_no + " or ";
                 qy = qy + "seat_no = " +o[o.length-1].seat_no+")";
