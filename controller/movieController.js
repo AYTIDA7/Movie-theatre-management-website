@@ -1,4 +1,4 @@
-var mysql = require('mysql');
+
 var bodyParser=require("body-parser");
 var randomstring = require("randomstring");
 var includes = require('array-includes');
@@ -6,24 +6,13 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var jsonParser = bodyParser.json();
 
 
-module.exports = function(app){
-  var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "zynu456$",
-    database: "dbmsproject1"
-  });
-
-  con.connect(function(err) {
-    if (err) throw err;
-    console.log('Connected to the database');
-
-  });
-
+module.exports = function(app,con){
+  
   var bookingid;
   var x=[],y=[];
   var screen,movie;
   app.get("/",function(req,res) {
+    console.log("here");
     var q = "select m_name,sc_id from movie_data,movie \
      where movie_data.m_id in (select m_id from movie) \
      and movie_data.m_id = movie.m_id";
@@ -44,6 +33,7 @@ module.exports = function(app){
     //console.log(res);
     var q = `select m_name,row, cols, status from screen,movie_data,movie
       where screen.sc_id = ${req.body.screen} and movie.m_id=movie_data.m_id and movie.sc_id=screen.sc_id`
+
   	var val = con.query(q,function(err,response) {
   		if(err) throw err;
   		var o = JSON.parse(JSON.stringify(response));
@@ -279,7 +269,7 @@ module.exports = function(app){
     var prn=req.body.production;
     var rating=req.body.rating;
     var data="";
-    if(username==="junaid" && password==="junaid")
+    if(username==="pass" && password==="pass")
         res.render("adminlogged",{data:data});
     else if(String(req.username)==="undefined" && String(req.username)==="undefined")
     {
